@@ -5,7 +5,9 @@ Projet Java démontrant la connexion à une base de données **PostgreSQL** et l
 Prérequis et versions
 
 1- Java 17
+
 2- Maven
+
 3- PostgreSQL installé et en cours d’exécution sur la machine
 
 Connexion PostgreSQL
@@ -13,12 +15,17 @@ Connexion PostgreSQL
 -Paramètres de connexion
 
 La connexion est définie dans la classe `App.java` :
+
 1-URL: `jdbc:postgresql://localhost:5432/jdbc_hady` | Adresse du serveur et nom de la base
+
 2-User: `postgres` | Utilisateur PostgreSQL
+
 3-Password:  `123` | Mot de passe de l’utilisateur
 
 4-Host: `localhost`
+
 5-Port : `5432` (port par défaut de PostgreSQL)
+
 6-Base de données: `jdbc_hady`
 
 -Établissement de la connexion
@@ -42,10 +49,15 @@ Table utilisée : `students`
 
 Structure de la table
 | Colonne | Type | Description |
+
 |---------|------|-------------|
+
 | **id** | `SERIAL` (entier auto-incrémenté) | Identifiant unique de l’étudiant |
+
 | **name** | `VARCHAR` | Nom de l’étudiant |
+
 | **email** | `VARCHAR` | Adresse e-mail |
+
 Donc pour créer cette table:
 
 ```sql
@@ -65,8 +77,11 @@ Toutes les opérations sont implémentées dans `App.java`.
 Rôle: insérer un nouvel étudiant et récupérer son `id` généré.
 
 - **Signature** : `insertStudent(Connection conn, String name, String email)`
+
 - **Requête** : `INSERT INTO students(name, email) VALUES (?, ?) RETURNING id`
+
 - **Technique** : `PreparedStatement` pour éviter les injections SQL et `RETURNING id` pour récupérer l’id créé.
+
 - **Retour** : l’`id` (int) du nouvel enregistrement.
 
 Exemple dans le `main` :
@@ -80,8 +95,11 @@ int newId = insertStudent(conn, "Student One", "student1@mail.com");
 Rôle: afficher tous les étudiants de la table.
 
 - **Signature** : `selectAllStudents(Connection conn)`
+
 - **Requête** : `SELECT id, name, email FROM students ORDER BY id`
+
 - **Technique** : `Statement` + `ResultSet`, parcours avec `while (rs.next())`.
+
 - **Retour** : aucun ; les lignes sont affichées dans la console.
 
 Exemple dans le `main`:
@@ -94,8 +112,11 @@ selectAllStudents(conn);
 Rôle: modifier le nom d’un étudiant à partir de son `id`.
 
 - **Signature** : `updateStudentName(Connection conn, int id, String newName)`
+
 - **Requête** : `UPDATE students SET name=? WHERE id=?`
+
 - **Technique** : `PreparedStatement` avec paramètres pour l’id et le nouveau nom.
+
 - **Retour** : nombre de lignes mises à jour (int).
 
 Exemple dans le `main` :
@@ -108,8 +129,11 @@ int updated = updateStudentName(conn, newId, "Student One Updated");
 Rôle: supprimer un étudiant à partir de son `id`.
 
 - **Signature** : `deleteStudent(Connection conn, int id)`
+
 - **Requête** : `DELETE FROM students WHERE id=?`
+
 - **Technique** : `PreparedStatement` avec l’id en paramètre.
+
 - **Retour** : nombre de lignes supprimées (int).
 
 Exemple dans le `main` :
@@ -119,6 +143,7 @@ System.out.println("Deleted rows = " + deleted);
 ```
 
 Lancer le projet
+
 À la racine du projet :
 
 ```bash
